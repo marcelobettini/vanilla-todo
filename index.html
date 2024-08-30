@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+    <title>Lista de Tareas</title>
+</head>
+
+<body>
+    <h1>Lista de Tareas</h1>
+    <form id="addTodoForm">
+        <label>Ingrese una tarea:
+            <input type="text" id="todoDescription">
+        </label>
+        <input type="reset" value="Limpiar">
+        <input type="submit" value="Agregar">
+    </form>
+
+    <table id="todoTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <dialog id="todoModal">
+        <form id="editTodoForm">
+            <p>id: <span id="todoId"></span></p>
+            <label for="todoDescriptionModal">Description:</label>
+            <input type="text" id="todoDescriptionModal">
+
+            <button type="button" id="cancelButton">Cancel</button>
+        </form>
+
+    </dialog>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
