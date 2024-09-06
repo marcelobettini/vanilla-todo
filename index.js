@@ -2,26 +2,63 @@
 const addTodoForm = document.getElementById("addTodoForm")
 const todoTable = document.getElementById("todoTable")
 const todoModal = document.getElementById("todoModal")
-const cancelButton = document.getElementById("cancelButton")
-
-cancelButton.addEventListener("click", handleCloseModal)
+const deleteButtonModal = document.getElementById("deleteButtonModal")
+const updateButtonModal = document.getElementById("updateButtonModal")
+const toggleButtonModal = document.getElementById("toggleStatusButtonModal")
+const cancelButtonModal = document.getElementById("cancelButtonModal")
+const todoDescriptionModal = document.getElementById("todoDescriptionModal")
+const todoIdModal = document.getElementById("todoIdModal")
+const todoStatusModal = document.getElementById("todoStatusModal")
+const editTodoForm = document.getElementById("editTodoForm")
 
 //Event Listeners
+deleteButtonModal.addEventListener("click", handleDelete)
+updateButtonModal.addEventListener("click", handleUpdate)
+toggleButtonModal.addEventListener("click", handleToggle)
+cancelButtonModal.addEventListener("click", handleCloseModal)
 addTodoForm.addEventListener("submit", handleAddTodoFormSubmit)
 
 //espacio para contener las tareas, es decir, el estado de la app
-let todos = []
+const storedTodos = localStorage.getItem("todo-list")
+let todos = JSON.parse(storedTodos)
+renderTable()
+
+//funciones del modal de detalle
+function handleDelete() {
+    const todoId = editTodoForm.querySelector("#todoIdModal").textContent
+    todos = todos.filter(todo => todo.id !== todoId)
+    renderTable()
+    todoModal.close()
+    localStorage.setItem("todo-list", JSON.stringify(todos))
+
+}
+function handleUpdate() {
+    const todoId = editTodoForm.querySelector("#todoIdModal").textContent
+    const newText = todoDescriptionModal.value
+    todos = todos.map(todo => todo.id === todoId ? { ...todo, description: newText } : todo)
+    renderTable()
+    todoModal.close()
+    localStorage.setItem("todo-list", JSON.stringify(todos))
+}
+
+function handleToggle() {
+    const todoId = editTodoForm.querySelector("#todoIdModal").textContent
+    todos = todos.map(todo => todo.id === todoId ? { ...todo, isCompleted: !todo.isCompleted } : todo)
+    console.log(todos)
+    renderTable()
+    todoModal.close()
+    localStorage.setItem("todo-list", JSON.stringify(todos))
+}
+
+function handleCloseModal() {
+    todoModal.close()
+}
+
 
 
 //function to generate id
 function generateId() {
-    // if (todos.length === 0) {
-    //     return 1
-    // } else {
-    //     return todos.length + 1
-    // }
     return crypto.randomUUID()
-
 }
 
 //function to handle add todo form submission
@@ -38,6 +75,7 @@ function handleAddTodoFormSubmit(event) {
         todos.push(newTodo)
         renderTable()
         todoDescriptionInput.value = ""
+        localStorage.setItem("todo-list", JSON.stringify(todos))
 
     }
 }
@@ -49,6 +87,7 @@ function renderTable() {
     tableBody.innerHTML = ""
     todos.forEach((item) => {
         const row = document.createElement("tr")
+        row.setAttribute("data-todo-id", item.id)
         //we need to identify each row 
         row.addEventListener("click", handleRowClick)
 
@@ -72,14 +111,24 @@ function renderTable() {
 
         tableBody.appendChild(row)
     })
-
 }
 
 function handleRowClick(event) {
+    const todoId = event.currentTarget.getAttribute('data-todo-id')
+    const todo = todos.find(todo => todo.id === todoId)
+
+    todoIdModal.innerText = todo.id
+    todoDescriptionModal.value = todo.description
+    todoStatusModal.innerText = todo.isCompleted ? "Completed" : "Pending"
+
+    if (todo.isCompleted) {
+        todoStatusModal.classList.remove("pending")
+        todoStatusModal.classList.add("completed")
+    } else {
+        todoStatusModal.classList.remove("completed")
+        todoStatusModal.classList.add("pending")
+
+    }
     todoModal.showModal()
-
 }
 
-function handleCloseModal() {
-    todoModal.close()
-}

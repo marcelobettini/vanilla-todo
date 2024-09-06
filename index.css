@@ -1,0 +1,7 @@
+.pending {
+  color: olive;
+}
+.completed {
+  color: gray;
+  text-decoration: line-through;
+}

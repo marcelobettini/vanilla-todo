@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+    <link rel="stylesheet" href="./index.css">
     <title>Lista de Tareas</title>
 </head>
 
@@ -12,7 +13,7 @@
     <h1>Lista de Tareas</h1>
     <form id="addTodoForm">
         <label>Ingrese una tarea:
-            <input type="text" id="todoDescription">
+            <input type="text" id="todoDescription" placeholder="Ingrese tarea...📝">
         </label>
         <input type="reset" value="Limpiar">
         <input type="submit" value="Agregar">
@@ -33,11 +34,19 @@
 
     <dialog id="todoModal">
         <form id="editTodoForm">
-            <p>id: <span id="todoId"></span></p>
-            <label for="todoDescriptionModal">Description:</label>
-            <input type="text" id="todoDescriptionModal">
+            <fieldset>
+                <p>id: <span id="todoIdModal"></span></p>
+                <label for="todoDescriptionModal">Description:</label>
+                <input type="text" id="todoDescriptionModal">
+            </fieldset>
+            <p>Status: <span id="todoStatusModal"></span></p>
+            <fieldset>
+                <button type="button" id="deleteButtonModal">Delete</button>
+                <button type="button" id="updateButtonModal">Update</button>
+                <button type="button" id="toggleStatusButtonModal">Toggle Status</button>
+                <button type="button" id="cancelButtonModal">Cancel</button>
+            </fieldset>
 
-            <button type="button" id="cancelButton">Cancel</button>
         </form>
 
     </dialog>
